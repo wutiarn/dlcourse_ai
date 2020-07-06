@@ -117,7 +117,14 @@ class KNN:
         for i in range(num_test):
             # TODO: Implement choosing best class based on k
             # nearest training samples
-            pass
+
+            # https://stackoverflow.com/a/23734295
+            Y_indexes = np.argpartition(dists[i], self.k)[:self.k]
+            Y = self.train_y[Y_indexes]
+
+            # https://stackoverflow.com/a/28663910
+            unique_Y, counts = np.unique(Y, return_counts=True)
+            pred[i] = unique_Y[np.argmax(counts)]
         return pred
 
     def predict_labels_multiclass(self, dists):
